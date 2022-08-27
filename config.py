@@ -11,4 +11,6 @@ frases=[
     'Você achou que as únicas coisas do Brasil que gringo gosta é caipirinha e papagaio? Achou errado, querido patriota otário! O gringo também gosta de turismo sexual e de alguns filmes brasileiros.',
     'Achou que ia responder com uma frase minha? Achou errado, otário!'
 ]
+
+token='OTM2NzcxMzcwNDM0NTY0MTA2.Gm57NG.VTg_ZSfGWg50Wu3aq3Z0bVGTugXX_I-0-mlrkg'
     

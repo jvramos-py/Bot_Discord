@@ -1,27 +1,17 @@
-from cmath import e
+import discord
 from distutils.log import error
-from http import client
-from pydoc import cli
 import random
-from re import X
 from time import sleep
-from turtle import color, title
-from unicodedata import name
 import datetime
 import requests
-import os
-from urllib import response
-import discord
-from discord import FFmpegPCMAudio, TextChannel
-from discord.utils import get
-from discord.ext import commands, tasks
-from youtube_dl import YoutubeDL
 import config as cfg
 import random
+from discord.ext import commands
 
-bot = commands.Bot('!')
 
-players = {}
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix='!', intents=intents)
 
 
 @bot.event
@@ -126,55 +116,5 @@ async def get_random_image(ctx):
 
     await ctx.send(embed=embed)
 
-@bot.command(name="entrar")
-async def join(ctx):
-    channel = ctx.message.author.voice.channel
-    voice = get(client.voice_clients, guild=ctx.guild)
-    if voice and voice.is_connected:
-        await voice.move_to(channel)
-    else: 
-        voice = await channel.connect()
 
-@bot.command(name="tocar")
-async def play(ctx, url):
-    YDL_OPTIONS = {'format': 'bestaudio', 'noplaylist': 'True'}
-    FFMPEG_OPTIONS = {
-        'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}    
-    voice = get(client.voice_clients, guild=ctx.guild)
-    if not voice.is_playing():
-        with YoutubeDL(YDL_OPTIONS) as ydl:
-            info = ydl.extract_info(url, download=False)
-        URL = info['url']
-        voice.play(FFmpegPCMAudio(URL, **FFMPEG_OPTIONS))
-        voice.is_playing()
-        await ctx.send('Bot tá tocando.')
-    else:
-        await ctx.send("Bot já está tocando, relaxa aí parça.")
-
-@bot.command()
-async def resume(ctx):
-    voice = get(client.voice_clients, guild=ctx.guild)
-    if not voice.is_playing():
-        voice.resume()
-        await ctx.send("Retomando a música...")
-
-@bot.command()
-async def pause(ctx):
-    voice = get(client.voice_clients, guild=ctx.guild)
-    if voice.is_playing():
-        voice.pause()
-        await ctx.send("Pausei a música.")
-
-@bot.command(name='parar')
-async def stop(ctx):
-    voice = get(client.voice_clients, guild=ctx.guild)
-    if voice.is_playing():
-        voice.stop()
-        await ctx.send("Parando a música...")
-
-@bot.command(name="limpar")
-async def clear(ctx, amount=15):
-    await ctx.channel.purge(limit=amount)
-    await ctx.send("Limpando as mensagens...")
-
-bot.run('OTM2NzcxMzcwNDM0NTY0MTA2.YfSCUw.d0k_YzK_aEBmz05Ut0Cgiy20nrE')
+bot.run(cfg.token)
